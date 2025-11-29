@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rida Al Hajj Ali | Senior Prompt Engineer & AI Specialist</title>
+    <title>Rida Al Hajj Ali | Junior Data Scientist & AI Specialist</title>
     <meta name="description"
-        content="Portfolio of Rida Al Hajj Ali, a Senior Prompt Engineer, AI & ML Specialist, and Python Developer.">
+        content="Portfolio of Rida Al Hajj Ali, a Junior Data Scientist, AI & ML Specialist, and Python Developer.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -273,50 +273,29 @@
         <div class="container">
             <h2 class="section-heading">Get In Touch</h2>
             <div class="contact-wrapper">
-                <form class="contact-form" id="contactForm" method="POST" novalidate>
-                    <!-- reply-to will be populated from config.js -->
-                    <input type="hidden" name="_replyto" id="_replyto" value="">
-
+                <form class="contact-form" id="contactForm" action="https://formspree.io/f/xdkvwbrw" method="POST">
                     <div class="form-group">
                         <label for="name">Name</label>
                         <input type="text" id="name" name="name" required>
                     </div>
-
                     <div class="form-group">
                         <label for="email">Email</label>
                         <input type="email" id="email" name="email" required>
                     </div>
-
                     <div class="form-group">
                         <label for="subject">Subject</label>
                         <input type="text" id="subject" name="subject" required>
                     </div>
-
                     <div class="form-group">
                         <label for="message">Message</label>
                         <textarea id="message" name="message" rows="5" required></textarea>
                     </div>
-
                     <button type="submit" class="btn btn-primary btn-block">Send Message</button>
                 </form>
-                <script src="config.js"></script>
-                <script>
-                    (function applyFormConfig() {
-                        const cfg = window.APP_CONFIG || {};
-                        const form = document.getElementById('contactForm');
-                        if (form && cfg.FORM_ACTION) {
-                            form.action = cfg.FORM_ACTION;
-                        }
-                        const reply = document.getElementById('_replyto');
-                        if (reply) {
-                            reply.value = cfg.REPLY_TO || '';
-                        }
-                    })();
-                </script>
 
                 <div class="contact-info">
                     <h3>Contact Information</h3>
-                    <p><strong>Email:</strong> <a href="mailto:ridahajali8@gmail.com">ridahajali8@gmail.com</a></p>
+                    <p><strong>Email:</strong> <a href="mailto:ridahajjali8@gmail.com">ridahajali8@gmail.com</a></p>
                     <div class="social-links">
                         <a href="#" aria-label="LinkedIn">LinkedIn</a>
                         <a href="#" aria-label="GitHub">GitHub</a>

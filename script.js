@@ -91,3 +91,33 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+document.getElementById('contactForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+    const button = this.querySelector('button[type="submit"]');
+    button.textContent = 'Sending...';
+    button.disabled = true;
+
+    try {
+        const response = await fetch(this.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            alert('Message sent successfully!');
+            this.reset();
+        } else {
+            alert('Oops! There was a problem sending your message.');
+        }
+    } catch (error) {
+        alert('Oops! There was a problem sending your message.');
+    } finally {
+        button.textContent = 'Send Message';
+        button.disabled = false;
+    }
+});
