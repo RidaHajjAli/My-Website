@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const hamburger = document.querySelector('.hamburger');
+    const navLinksContainer = document.querySelector('.nav-links');
+    const closeMenu = document.querySelector('.close-menu');
+
     // Smooth scrolling for navigation links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -8,50 +12,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (targetElement) {
                 // Close mobile menu if open
-                const navLinks = document.querySelector('.nav-links');
-                const hamburger = document.querySelector('.hamburger');
-                if (navLinks.classList.contains('active')) {
-                    navLinks.classList.remove('active');
+                if (navLinksContainer.classList.contains('active')) {
+                    navLinksContainer.classList.remove('active');
                 }
 
                 window.scrollTo({
-                    top: targetElement.offsetTop - 80, // Offset for fixed header
+                    top: targetElement.offsetTop - 80,
                     behavior: 'smooth'
                 });
             }
         });
     });
-    const downloadBtn = document.getElementById('download-cv-btn');
 
+    // Download CV button handler
+    const downloadBtn = document.getElementById('download-cv-btn');
     if (downloadBtn) {
         downloadBtn.addEventListener('click', (e) => {
-            e.preventDefault(); // Stop the browser from following the link normally
-
+            e.preventDefault();
             const url = downloadBtn.getAttribute('href');
-            const filename = "Rida_Al_Hajj_Ali_CV.pdf"; // The name the file will have when saved
+            const filename = "Rida_Al_Hajj_Ali_CV.pdf";
 
             fetch(url)
-                .then(response => response.blob()) // Convert response to a binary blob
+                .then(response => response.blob())
                 .then(blob => {
-                    // Create a temporary URL for the blob
                     const blobUrl = window.URL.createObjectURL(blob);
-
-                    // Create a hidden link element
                     const link = document.createElement('a');
                     link.style.display = 'none';
                     link.href = blobUrl;
-                    link.download = filename; // This forces the download attribute to work
-
-                    // Append, click, and cleanup
+                    link.download = filename;
                     document.body.appendChild(link);
                     link.click();
-
-                    // Clean up memory
                     window.URL.revokeObjectURL(blobUrl);
                     document.body.removeChild(link);
                 })
                 .catch(err => {
-                    // Fallback: If fetch fails (e.g. strict CORS settings), open in new tab
                     console.error("Download failed, opening in new tab", err);
                     window.open(url, '_blank');
                 });
@@ -81,16 +75,39 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Mobile Menu Toggle
-    const hamburger = document.querySelector('.hamburger');
-    const navLinksContainer = document.querySelector('.nav-links');
-
+    // Mobile Menu Toggle - Open
     if (hamburger) {
         hamburger.addEventListener('click', () => {
-            navLinksContainer.classList.toggle('active');
+            navLinksContainer.classList.add('active');
         });
     }
+
+    // Mobile Menu Toggle - Close
+    if (closeMenu) {
+        closeMenu.addEventListener('click', () => {
+            navLinksContainer.classList.remove('active');
+        });
+    }
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (navLinksContainer.classList.contains('active') &&
+            !navLinksContainer.contains(e.target) &&
+            !hamburger.contains(e.target)) {
+            navLinksContainer.classList.remove('active');
+        }
+    });
+
+    // Close menu on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && navLinksContainer.classList.contains('active')) {
+            navLinksContainer.classList.remove('active');
+            hamburger.focus();
+        }
+    });
 });
+
+// Contact form handler
 document.getElementById('contactForm').addEventListener('submit', async function (e) {
     e.preventDefault();
 
@@ -121,3 +138,63 @@ document.getElementById('contactForm').addEventListener('submit', async function
         button.disabled = false;
     }
 });
+
+// ===================================
+// SCROLL REVEAL ANIMATIONS
+// ===================================
+
+/**
+ * Initializes scroll-triggered reveal animations using IntersectionObserver API
+ * - Observes elements with reveal classes
+ * - Adds 'visible' class when element enters viewport
+ * - Unobserves after first intersection (one-time animation)
+ * - Respects prefers-reduced-motion setting
+ */
+(function initScrollReveal() {
+    // Check if user prefers reduced motion
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+    // If user prefers reduced motion, don't initialize animations
+    if (prefersReducedMotion) {
+        // Make all reveal elements immediately visible
+        document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(el => {
+            el.classList.add('visible');
+        });
+        return;
+    }
+
+    // Configure IntersectionObserver options
+    const observerOptions = {
+        root: null, // Use viewport as root
+        rootMargin: '0px 0px -100px 0px', // Trigger 100px before element enters viewport
+        threshold: 0.15 // Trigger when 15% of element is visible
+    };
+
+    // Create the IntersectionObserver
+    const observer = new IntersectionObserver((entries, observerInstance) => {
+        entries.forEach(entry => {
+            // Check if element is intersecting (entering viewport)
+            if (entry.isIntersecting) {
+                // Add visible class to trigger animation
+                entry.target.classList.add('visible');
+                
+                // Unobserve element after animation (one-time reveal)
+                observerInstance.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    // Select all elements with reveal classes
+    const revealElements = document.querySelectorAll(
+        '.reveal, .reveal-left, .reveal-right, .reveal-scale'
+    );
+
+    // Observe each reveal element
+    revealElements.forEach(element => {
+        observer.observe(element);
+    });
+
+    // Optional: Listen for dynamic content additions
+    // If you dynamically add content, you can re-run observation on new elements
+    window.revealObserver = observer; // Expose for potential dynamic use
+})();

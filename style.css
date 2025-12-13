@@ -169,6 +169,115 @@ header {
     cursor: pointer;
 }
 
+/* Close Menu Button Styles */
+.close-menu {
+    display: none;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+    z-index: 1002;
+    background-color: transparent;
+    border: 2px solid var(--accent-color);
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    transition: var(--transition);
+}
+
+.close-menu span {
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 1;
+    color: var(--accent-color);
+    display: block;
+    position: relative;
+    top: -2px;
+}
+
+.close-menu:hover {
+    background-color: rgba(100, 255, 218, 0.1);
+    border-color: var(--accent-hover);
+    transform: rotate(90deg);
+}
+
+.close-menu:active {
+    transform: rotate(90deg) scale(0.95);
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .header-container {
+        position: relative;
+    }
+
+    .hamburger {
+        display: block;
+        z-index: 1001;
+    }
+
+    .hamburger span {
+        display: block;
+        width: 25px;
+        height: 3px;
+        background-color: var(--accent-color);
+        margin: 5px 0;
+        transition: var(--transition);
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background-color: var(--card-bg);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: var(--transition);
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+    }
+
+    .nav-links.active {
+        right: 0;
+    }
+
+    /* Show close button only when menu is active */
+    .nav-links.active .close-menu {
+        display: flex;
+    }
+
+    .hero-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .hero-content {
+        order: 2;
+    }
+
+    .hero-visual {
+        order: 1;
+        margin-bottom: 40px;
+    }
+
+    .bio {
+        margin: 0 auto 2.5rem;
+    }
+
+    .tech-list {
+        align-items: center;
+    }
+
+    .section-heading {
+        font-size: 2rem;
+    }
+}
+
 /* Hero Section */
 .hero-section {
     min-height: 100vh;
@@ -506,10 +615,40 @@ footer {
         align-items: center;
         transition: var(--transition);
         box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+        z-index: 1000;
     }
 
     .nav-links.active {
         right: 0;
+    }
+
+    .close-menu {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+        cursor: pointer;
+        color: var(--accent-color);
+        transition: var(--transition);
+        z-index: 1002;
+        border: 2px solid var(--accent-color);
+        border-radius: 50%;
+    }
+
+    .close-menu span {
+        font-size: 2rem;
+        font-weight: bold;
+        line-height: 1;
+    }
+
+    .close-menu:hover {
+        color: var(--accent-hover);
+        border-color: var(--accent-hover);
+        transform: rotate(90deg);
     }
 
     .hero-container {
@@ -601,5 +740,108 @@ footer {
     .project-card,
     .article-card {
         max-width: 100%;
+    }
+}
+
+/* ===================================
+   SCROLL REVEAL ANIMATIONS
+   =================================== */
+
+/* Default hidden state for reveal elements */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    will-change: opacity, transform;
+}
+
+/* Visible state when element enters viewport */
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Variant: Fade in from left */
+.reveal-left {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    will-change: opacity, transform;
+}
+
+.reveal-left.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Variant: Fade in from right */
+.reveal-right {
+    opacity: 0;
+    transform: translateX(40px);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    will-change: opacity, transform;
+}
+
+.reveal-right.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Variant: Scale up fade */
+.reveal-scale {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    will-change: opacity, transform;
+}
+
+.reveal-scale.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Staggered delay for children (e.g., cards in a grid) */
+.reveal-stagger:nth-child(1) {
+    transition-delay: 0.1s;
+}
+
+.reveal-stagger:nth-child(2) {
+    transition-delay: 0.2s;
+}
+
+.reveal-stagger:nth-child(3) {
+    transition-delay: 0.3s;
+}
+
+.reveal-stagger:nth-child(4) {
+    transition-delay: 0.4s;
+}
+
+.reveal-stagger:nth-child(5) {
+    transition-delay: 0.5s;
+}
+
+.reveal-stagger:nth-child(6) {
+    transition-delay: 0.6s;
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .reveal,
+    .reveal-left,
+    .reveal-right,
+    .reveal-scale {
+        opacity: 1;
+        transform: none;
+        transition: none;
+        will-change: auto;
+    }
+    
+    .reveal.visible,
+    .reveal-left.visible,
+    .reveal-right.visible,
+    .reveal-scale.visible {
+        opacity: 1;
+        transform: none;
     }
 }
