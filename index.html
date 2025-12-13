@@ -13,6 +13,8 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <!-- Calendly badge widget -->
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
 </head>
 
 <body>
@@ -316,6 +318,19 @@
     </footer>
 
     <script src="script.js"></script>
+    <!-- Calendly badge widget -->
+    <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+    <script type="text/javascript">
+        window.onload = function() { 
+            Calendly.initBadgeWidget({ 
+                url: 'https://calendly.com/ridahajali8/30min', 
+                text: 'Schedule a meeting with me', 
+                color: '#64FFDA', 
+                textColor: '#121212', 
+                branding: true 
+            }); 
+        }
+    </script>
 </body>
 
 </html>
