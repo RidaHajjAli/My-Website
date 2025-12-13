@@ -68,16 +68,19 @@ h4 {
     text-align: center;
     margin-bottom: 3rem;
     position: relative;
-    display: inline-block;
-    left: 50%;
-    transform: translateX(-50%);
+    /* Fix: Changed from inline-block to block to prevent centering conflicts with reveal transforms */
+    display: block;
+    /* Removed left: 50% and transform: translateX(-50%) - these conflict with reveal animations */
+    /* Centering now handled by text-align: center on block element */
 }
 
 .section-heading::after {
     content: '';
     position: absolute;
     bottom: -10px;
-    left: 0;
+    /* Fix: Center the underline using left: 50% and transform, not on parent */
+    left: 50%;
+    transform: translateX(-50%);
     width: 60px;
     height: 4px;
     background-color: var(--accent-color);
@@ -758,7 +761,8 @@ footer {
 /* Visible state when element enters viewport */
 .reveal.visible {
     opacity: 1;
-    transform: translateY(0);
+    /* Fix: Use translate3d for GPU acceleration and to avoid conflicts with text centering */
+    transform: translateY(0) translate3d(0, 0, 0);
 }
 
 /* Variant: Fade in from left */
@@ -771,7 +775,8 @@ footer {
 
 .reveal-left.visible {
     opacity: 1;
-    transform: translateX(0);
+    /* Fix: Use translate3d for GPU acceleration */
+    transform: translateX(0) translate3d(0, 0, 0);
 }
 
 /* Variant: Fade in from right */
@@ -784,7 +789,8 @@ footer {
 
 .reveal-right.visible {
     opacity: 1;
-    transform: translateX(0);
+    /* Fix: Use translate3d for GPU acceleration */
+    transform: translateX(0) translate3d(0, 0, 0);
 }
 
 /* Variant: Scale up fade */
@@ -797,7 +803,8 @@ footer {
 
 .reveal-scale.visible {
     opacity: 1;
-    transform: scale(1);
+    /* Fix: Use translate3d for GPU acceleration */
+    transform: scale(1) translate3d(0, 0, 0);
 }
 
 /* Staggered delay for children (e.g., cards in a grid) */

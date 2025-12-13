@@ -146,8 +146,8 @@ document.getElementById('contactForm').addEventListener('submit', async function
 /**
  * Initializes scroll-triggered reveal animations using IntersectionObserver API
  * - Observes elements with reveal classes
- * - Adds 'visible' class when element enters viewport
- * - Unobserves after first intersection (one-time animation)
+ * - Toggles 'visible' class when element enters/exits viewport
+ * - Animations re-trigger on every scroll (repeatable animations)
  * - Respects prefers-reduced-motion setting
  */
 (function initScrollReveal() {
@@ -171,15 +171,18 @@ document.getElementById('contactForm').addEventListener('submit', async function
     };
 
     // Create the IntersectionObserver
-    const observer = new IntersectionObserver((entries, observerInstance) => {
+    // Fix: Removed unobserve() to enable repeatable animations
+    const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            // Check if element is intersecting (entering viewport)
+            // Toggle visible class based on intersection state
+            // Fix: When intersecting (entering viewport) -> add 'visible'
+            // When not intersecting (leaving viewport) -> remove 'visible'
             if (entry.isIntersecting) {
-                // Add visible class to trigger animation
                 entry.target.classList.add('visible');
-                
-                // Unobserve element after animation (one-time reveal)
-                observerInstance.unobserve(entry.target);
+            } else {
+                // Remove visible class when element leaves viewport
+                // This allows animation to re-trigger when scrolling back
+                entry.target.classList.remove('visible');
             }
         });
     }, observerOptions);
@@ -194,7 +197,6 @@ document.getElementById('contactForm').addEventListener('submit', async function
         observer.observe(element);
     });
 
-    // Optional: Listen for dynamic content additions
-    // If you dynamically add content, you can re-run observation on new elements
-    window.revealObserver = observer; // Expose for potential dynamic use
+    // Expose observer for potential dynamic content additions
+    window.revealObserver = observer;
 })();
