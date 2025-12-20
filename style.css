@@ -449,11 +449,26 @@ header {
     align-items: center;
 }
 
-.placeholder-icon img {
+.project-logo {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    /* Changed from contain to cover */
     display: block;
+}
+
+.placeholder-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.placeholder-icon svg {
+    width: 48px;
+    height: 48px;
+    opacity: 0.3;
 }
 
 .project-content {
@@ -834,6 +849,7 @@ footer {
 
 /* Respect user's motion preferences */
 @media (prefers-reduced-motion: reduce) {
+
     .reveal,
     .reveal-left,
     .reveal-right,
@@ -843,7 +859,7 @@ footer {
         transition: none;
         will-change: auto;
     }
-    
+
     .reveal.visible,
     .reveal-left.visible,
     .reveal-right.visible,
